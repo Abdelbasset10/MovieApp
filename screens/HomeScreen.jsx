@@ -17,12 +17,13 @@ const HomeScreen = () => {
     const [upComingMovies,setUpComingMovies] = useState([])
     const [topRatedMovies,setTopRatedMovies] = useState([])
     const [isLoading,setIsLoading] = useState(true)
-
+    const [userData,setUserData] = useState(null)
+        console.log(userData)
     useEffect(()=>{
         const getUser = async () => {
-            AsyncStorage.getItem("profile").then((value)=>{
-                let userData = JSON.parse(value)
-                if(!userData.userName){
+                AsyncStorage.getItem("profile").then((value)=>{
+                setUserData(JSON.parse(value))
+                if(!userData.email){
                     return navigation.navigate('Auth')
                 }
             }).catch((err)=>{
@@ -81,14 +82,17 @@ const HomeScreen = () => {
     return (
     <View className='flex-1 bg-neutral-800'>
         <SafeAreaView className={`${ios ? '-mb-2' : 'mb-3'}`} >
-            <View className='mx-4 mt-2 flex-row items-center justify-between' >
-                <Text className='text-3xl font-semibold' >
-                    <Text className='text-yellow-300' >M</Text>ovies
-                </Text>
-                <MagnifyingGlassIcon size={30} strokeWidth={2} color='white' onPress={()=>navigation.navigate('Search')} />   
-                <TouchableOpacity className='bg-yellow-500 text-white px-2 py-1 rounded-lg' onPress={handleLogOut} >
-                    <Text className='text-xl' >Log Out</Text>    
-                </TouchableOpacity>   
+            <View>
+                <View className='mx-4 mt-2 flex-row items-center justify-between' >
+                    <Text className='text-3xl font-semibold' >
+                        <Text className='text-yellow-300' >M</Text>ovies
+                    </Text>
+                    <MagnifyingGlassIcon size={30} strokeWidth={2} color='white' onPress={()=>navigation.navigate('Search')} />   
+                    <TouchableOpacity className='bg-yellow-500 text-white px-2 py-1 rounded-lg' onPress={handleLogOut} >
+                        <Text className='text-xl' >Log Out</Text>    
+                    </TouchableOpacity>   
+                </View>
+                <Text className='mx-4 text-center mt-4 text-3xl' >Welcome <Text className='text-yellow-500' >{userData?.displayName}</Text> </Text>
             </View>
         </SafeAreaView>      
             <ScrollView

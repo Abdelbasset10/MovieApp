@@ -42,7 +42,7 @@ export default function PersonScreen() {
         const getUser = async () => {
             AsyncStorage.getItem("profile").then((value)=>{
                 let userData = JSON.parse(value)
-                if(!userData.userName){
+                if(!userData.email){
                     return navigation.navigate('Auth')
                 }
             }).catch((err)=>{
