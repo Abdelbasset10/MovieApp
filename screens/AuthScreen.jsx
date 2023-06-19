@@ -13,7 +13,7 @@ const AuthScreen = () => {
         password:""
     })
     const [isLoading,setIsLoading] = useState(true)
-    const [isSignIn,setIsSignIn] = useState(true)
+    const [isSignIn,setIsSignIn] = useState(false)
 
     useEffect(()=>{
         const getUser = async () => {         
@@ -38,25 +38,30 @@ const AuthScreen = () => {
                 Alert.alert('Error','You have to fill all your informations')
                 return
             }
+            setIsLoading(true)
             auth().signInWithEmailAndPassword(userInfo.email,userInfo.password).then((user)=>{
                 const userData = user.user
                 AsyncStorage.setItem("profile",JSON.stringify(userData)).then(()=>{
                     setUserInfo({
                         userName:"",email:"",password:""
                     })
+                    setIsLoading(false)
                     navigation.navigate('Home')})       
-            })       
+            }).catch((err)=>{
+                Alert.alert("Error",err.message)
+                setIsLoading(false)
+            })    
         }else{
             if(!userInfo.userName || !userInfo.email || !userInfo.password){
                 Alert.alert('Error','You have to fill all your informations')
                 return
             }
+            setIsLoading(true)
             auth().createUserWithEmailAndPassword(userInfo.email,userInfo.password)
             .then((user) => {
                 console.log(
                     "Registration Successful. Please Login to proceed"
-                );
-                
+                );      
                 if (user) {             
                     auth().currentUser.updateProfile({displayName: userInfo.userName})
                     .then(() => {
@@ -64,12 +69,16 @@ const AuthScreen = () => {
                         setUserInfo({
                             userName:"",email:"",password:""
                         })
+                        setIsLoading(false)
                         setIsSignIn(true)})
                     .catch((error) => {
                         console.error(error);
                     });
                 }
-            })
+            }).catch((err)=>{
+                Alert.alert("Error",err.message)
+                setIsLoading(false)
+            })   
         }
     }
     

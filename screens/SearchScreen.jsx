@@ -51,7 +51,7 @@ const SearchScreen = () => {
         <SafeAreaView className='flex-1 bg-neutral-800' >
             <View className='mx-4 mt-4' >
                 <View className='border-[1px] border-white flex-row rounded-lg justify-between items-center' >
-                    <TextInput placeholder='Search Movie...' className='p-2' onChangeText={handleSearch} />
+                    <TextInput placeholder='Search Movie... Enter +3 caracters' className='p-2' onChangeText={handleSearch} />
                     <View className='p-2 items-center bg-neutral-500 w-10 rounded-full'>
                         <XMarkIcon size={25} color='white' onPress={()=>navigation.navigate('Home')} />
                     </View>
